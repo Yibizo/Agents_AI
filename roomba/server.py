@@ -6,13 +6,13 @@ from mesa.visualization.UserParam import UserSettableParameter
 dirtyStat = {True: '#3F1703', False: '#FFFFFF'}
 
 def agent_portrayal(agent):
-    portrayal = {"Filled": "true"}
+    portrayal = {'Filled': 'true'}
 
     if (isinstance(agent, RoombaAgent)):
         portrayal['Shape'] = 'circle'
-        portrayal["Color"] = "red"
-        portrayal["Layer"] = 1
-        portrayal["r"] = 0.7
+        portrayal['Color'] = 'red'
+        portrayal['Layer'] = 1
+        portrayal['r'] = 0.7
 
     if (isinstance(agent,ObstacleAgent)):
         portrayal['Shape'] = 'rect'
@@ -20,9 +20,9 @@ def agent_portrayal(agent):
         portrayal['h'] = 1
         portrayal['x'] = agent.pos[0]
         portrayal['y'] = agent.pos[1]
-        portrayal["Color"] = '#3B3B3B'
-        portrayal["Layer"] = 2
-        # portrayal["r"] = 0.2
+        portrayal['Color'] = '#3B3B3B'
+        portrayal['Layer'] = 2
+        # portrayal['r'] = 0.2
 
     elif (isinstance(agent, TileAgent)):
         portrayal['Shape'] = 'rect'

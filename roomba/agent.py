@@ -2,7 +2,6 @@ from mesa import Agent
 import random
 
 class RoombaAgent(Agent):
-    """ Modelo para un agente que se mueve aleatoriamente """
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
         self.direction = 0 #Frente 0, Derecha 1, Izquierda 2, Atras 3
@@ -84,14 +83,14 @@ class RoombaAgent(Agent):
         free,newPos = self.isFreeMyDirection(freeSpaces,possible_steps)
         if free:
             self.model.grid.move_agent(self,newPos)
-            print(f"Moving from {myPosition} to {newPos} because it goes towards {self.direction}\n")
+            print(f'Moving from {myPosition} to {newPos} because it goes towards {self.direction}\n')
         else:
-            print(f"Can't move in orientation {self.orientation}, tile occupied")
+            print(f'Can\'t move in orientation {self.orientation}, tile occupied')
             newOrientation = random.randint(0,3)
             while (newOrientation == self.orientation):
                 newOrientation = random.randint(0,3)
             self.orientation = newOrientation
-            print(f"Changing orientation towards {self.orientation}\n")
+            print(f'Changing orientation towards {self.orientation}\n')
 
 
 
@@ -103,7 +102,7 @@ class RoombaAgent(Agent):
         else:
             # random movement
             self.direction = random.randint(0,3)
-            print(f"Agent {self.unique_id}: movement in direction {self.direction}")
+            print(f'Agent {self.unique_id}: movement in direction {self.direction}')
             self.move()
 
 class ObstacleAgent(Agent):
