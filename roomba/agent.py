@@ -8,6 +8,7 @@ class RoombaAgent(Agent):
         self.orientation = 3 #Derecha 0, Izquierda 1, Arriba 2, Abajo 3
         #El sentido toma en consideracion que las columnas crecen a la derecha y los renglones
         # crecen hacia arriba
+        self.moves = 0
 
     def isFreeMyDirection(self,listFreeSpaces,list_possible_steps):
         if (self.orientation == 0): #Derecha
@@ -84,6 +85,7 @@ class RoombaAgent(Agent):
         if free:
             self.model.grid.move_agent(self,newPos)
             print(f'Moving from {myPosition} to {newPos} because it goes towards {self.direction}\n')
+            self.moves += 1
         else:
             print(f'Can\'t move in orientation {self.orientation}, tile occupied')
             newOrientation = random.randint(0,3)

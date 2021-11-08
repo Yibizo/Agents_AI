@@ -8,6 +8,7 @@ class RoomModel(Model):
         self.limit = limit
         self.height = height
         self.width = width
+        self.storedSteps = limit
         self.num_agents = total
         self.grid = MultiGrid(height,width,False)
         self.schedule = RandomActivation(self)
@@ -64,4 +65,9 @@ class RoomModel(Model):
         if counter == 0 or self.limit == 1:
             self.running = False
             with open('data.txt', 'r+') as file:
-                file.write(f'Percentage of clean tiles: {100 - (round((counter / ((self.height-2) * (self.width-2))) * 100, 3))}%')
+                file.truncate(0)
+                file.write(f'Total steps taken: {self.storedSteps + 1 - self.limit}\n')
+                file.write(f'Percentage of clean tiles: {100 - (round((counter / ((self.height-2) * (self.width-2))) * 100, 3))}%\n')
+                for agent in self.schedule.agents:
+                    if isinstance(agent, RoombaAgent):
+                        file.write(f'Agent {agent.unique_id}: {agent.moves} moves taken\n')
