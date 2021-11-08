@@ -58,5 +58,11 @@ class RoomModel(Model):
         '''Advance the model by one step.'''
         self.schedule.step()
         self.limit -= 1
-        if self.limit == 1:
+
+        counter = 0
+        for agent in self.schedule.agents:
+            if isinstance(agent, TileAgent) and agent.isDirty:
+                counter += 1
+
+        if counter == 0 or self.limit == 1:
             self.running = False

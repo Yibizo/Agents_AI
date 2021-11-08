@@ -38,7 +38,7 @@ def agent_portrayal(agent):
 grid = CanvasGrid(agent_portrayal, 10, 10, 500, 500)
 
 model_params = {
-    'total': 3,
+    'total': 5,
     'height': 10,
     'width': 10,
     'limit': 100,
