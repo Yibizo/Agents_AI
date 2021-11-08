@@ -69,7 +69,7 @@ class RoombaAgent(Agent):
             moore=True, #8 conectado. Orden: arriba izquierda, centro, derecha; enmedio izquierda y derecha; abajo izquierda, centro, derecha
             include_center=True) # include own position
         
-        myPosition = possible_steps[4]
+        currPosition = possible_steps[4]
 
         # verify free spaces around agent
         freeSpaces = []
@@ -84,7 +84,7 @@ class RoombaAgent(Agent):
         free,newPos = self.isFreeMyDirection(freeSpaces,possible_steps)
         if free:
             self.model.grid.move_agent(self,newPos)
-            print(f'Moving from {myPosition} to {newPos} because it goes towards {self.direction}\n')
+            print(f'Moving from {currPosition} to {newPos} because it goes towards {self.direction}\n')
             self.moves += 1
         else:
             print(f'Can\'t move in orientation {self.orientation}, tile occupied')
