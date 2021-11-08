@@ -38,11 +38,11 @@ def agent_portrayal(agent):
 grid = CanvasGrid(agent_portrayal, 10, 10, 500, 500)
 
 model_params = {
-    'total': 5,
+    'total': UserSettableParameter('slider', 'Number of Roombas', 2, 1, 10, 1),
     'height': 10,
     'width': 10,
-    'limit': 100,
-    'density': UserSettableParameter('slider', 'Dirty Cell Density', 0.5, 0.01, 1.0, 0.1)
+    'limit': UserSettableParameter('slider', 'Maximum Number of Steps', 100, 10, 500, 10),
+    'density': UserSettableParameter('slider', 'Dirty Cell Density', 0.5, 0.1, 1.0, 0.1)
 }
 
 server = ModularServer(RoomModel,

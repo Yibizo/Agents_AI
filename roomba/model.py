@@ -6,6 +6,8 @@ from agent import RoombaAgent, ObstacleAgent, TileAgent
 class RoomModel(Model):
     def __init__(self, total, height, width, limit, density):
         self.limit = limit
+        self.height = height
+        self.width = width
         self.num_agents = total
         self.grid = MultiGrid(height,width,False)
         self.schedule = RandomActivation(self)
@@ -66,3 +68,5 @@ class RoomModel(Model):
 
         if counter == 0 or self.limit == 1:
             self.running = False
+            with open('data.txt', 'r+') as file:
+                file.write(f'Percentage of clean tiles: {100 - (round((counter / ((self.height-2) * (self.width-2))) * 100, 3))}%')
