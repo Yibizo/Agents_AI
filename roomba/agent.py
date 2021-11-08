@@ -99,11 +99,11 @@ class RoombaAgent(Agent):
         check = self.model.grid.get_cell_list_contents([self.pos])
         if check[0].isDirty:
             check[0].isDirty = False
-            print(f'Agent: {self.unique_id} cleaning tile {self.pos}...')
+            print(f'Agent {self.unique_id}: cleaning tile {self.pos}...')
         else:
             # random movement
             self.direction = random.randint(0,3)
-            print(f"Agent: {self.unique_id} movement {self.direction}")
+            print(f"Agent {self.unique_id}: movement in direction {self.direction}")
             self.move()
 
 class ObstacleAgent(Agent):

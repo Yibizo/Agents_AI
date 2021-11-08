@@ -25,7 +25,7 @@ class RoomModel(Model):
         # print(posLimitArr)
 
         for i in range(numObs):
-            a = ObstacleAgent(i, self)
+            a = ObstacleAgent(posLimitArr[i], self)
             self.schedule.add(a)
             self.grid.place_agent(a, posLimitArr[i])
 
@@ -36,12 +36,12 @@ class RoomModel(Model):
                 tilesArr.append((col, row))
 
         for i in range(len(tilesArr)):
-            t = TileAgent(1000+i, self, True) if self.random.random() < density else TileAgent(i+40000, self, False)
+            t = TileAgent(tilesArr[i], self, True) if self.random.random() < density else TileAgent(i+40000, self, False)
             self.schedule.add(t)
             self.grid.place_agent(t, tilesArr[i])
 
         for i in range(self.num_agents):
-            a = RoombaAgent(2000+i, self)
+            a = RoombaAgent(i+1, self)
             self.schedule.add(a)
             # Add the agent to a random empty grid cell
             # x = self.random.randrange(self.grid.width)
