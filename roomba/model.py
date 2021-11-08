@@ -31,16 +31,11 @@ class RoomModel(Model):
             self.schedule.add(a)
             self.grid.place_agent(a, posLimitArr[i])
 
-        tilesArr = []
-
-        for col in range(1, height-1):
-            for row in range(1, width-1):
-                tilesArr.append((col, row))
-
-        for i in range(len(tilesArr)):
-            t = TileAgent(tilesArr[i], self, True) if self.random.random() < density else TileAgent(i+40000, self, False)
-            self.schedule.add(t)
-            self.grid.place_agent(t, tilesArr[i])
+        for (contents, x, y) in self.grid.coord_iter():
+            if (x != 0 and x != width-1) and (y != 0 and y != height-1):
+                t = TileAgent((x,y), self, True) if self.random.random() < density else TileAgent((x,y), self, False)
+                self.schedule.add(t)
+                self.grid.place_agent(t, (x,y))
 
         for i in range(self.num_agents):
             a = RoombaAgent(i+1, self)
