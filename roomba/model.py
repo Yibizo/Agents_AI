@@ -2,6 +2,7 @@ from mesa.time import RandomActivation
 from mesa.space import MultiGrid # IMPORTANT CHANGE FROM SINGLE TO MULTI
 from mesa import Model
 from agent import RoombaAgent, ObstacleAgent, TileAgent
+import os
 
 class RoomModel(Model):
     def __init__(self, total, height, width, limit, density):
@@ -10,6 +11,7 @@ class RoomModel(Model):
         self.width = width
         self.storedSteps = limit
         self.num_agents = total
+        self.density = density
         self.grid = MultiGrid(height,width,False)
         self.schedule = RandomActivation(self)
         self.running = True
@@ -64,8 +66,17 @@ class RoomModel(Model):
 
         if counter == 0 or self.limit == 1:
             self.running = False
-            with open('data.txt', 'r+') as file:
-                file.truncate(0)
+            tmp = 1
+            while os.path.exists(f'data/data_{tmp}.txt'):
+                tmp += 1
+            with open(f'data/data_{tmp}.txt', 'x') as file:
+                file.write(f'=== Parameters ===\n')
+                file.write(f'Height: {self.height}\n')
+                file.write(f'Width: {self.width}\n')
+                file.write(f'Number of Roombas: {self.num_agents}\n')
+                file.write(f'Maximum number of steps: {self.storedSteps}\n')
+                file.write(f'Dirty cell density: {self.density}\n\n')
+                file.write(f'=== Results ===\n')
                 file.write(f'Total steps taken: {self.storedSteps + 1 - self.limit}\n')
                 file.write(f'Percentage of clean tiles: {100 - (round((counter / ((self.height-2) * (self.width-2))) * 100, 3))}%\n')
                 for agent in self.schedule.agents:
