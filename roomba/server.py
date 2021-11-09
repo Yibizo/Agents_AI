@@ -34,7 +34,7 @@ def agent_portrayal(agent):
         portrayal['h'] = 0.8
         portrayal['x'] = agent.pos[0]
         portrayal['y'] = agent.pos[1]
-        portrayal['Color'] = colorTiles['dirty']
+        portrayal['Color'] = colorPercentage['dirty percentage']
         portrayal['Layer'] = 0
 
     return portrayal
