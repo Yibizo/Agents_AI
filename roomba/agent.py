@@ -13,8 +13,9 @@ class RoombaAgent(Agent):
             include_center=False) # don't include own position
 
         newStep = self.random.choice(possibleSteps)
+        check = self.model.grid.get_cell_list_contents([newStep])
 
-        if len(self.model.grid.get_cell_list_contents([newStep])) <= 1:
+        if len(check) <= 1 and (len(check) == 0 or isinstance(check[0], TileAgent)):
             self.model.grid.move_agent(self, newStep)
             self.moves += 1
             print(f'Agent {self.unique_id}: moving towards tile {newStep}')

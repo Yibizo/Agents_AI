@@ -14,7 +14,7 @@ class RoomModel(Model):
         self.numRoombas = total
         self.density = density
         self.timeLimit = timeLimit
-        self.timeStart = time.time()
+        self.timeStart = None
         self.grid = MultiGrid(height, width, False)
         self.schedule = RandomActivation(self)
         self.running = True
@@ -44,6 +44,9 @@ class RoomModel(Model):
             self.grid.place_agent(a, (1,1))
 
     def step(self):
+        if not self.timeStart:
+            self.timeStart = time.time()
+
         self.schedule.step()
         self.datacollector.collect(self)
 
@@ -90,7 +93,8 @@ class RoomModel(Model):
     def finishSchedule(self):
         self.running = False
         dataFrame = self.datacollector.get_model_vars_dataframe()
-        time = f'{round(dataFrame.iloc[-1, 2], 3)} seconds'
+        print(dataFrame)
+        time = f'{round(dataFrame.iloc[-1, 0], 3)} seconds'
         cleanPercentage = f'{dataFrame.iloc[-1, 3]}%'
         agentMoves = '--- Agent Moves ---\n'
         tmpMoves = dataFrame.iloc[-1, 4]
