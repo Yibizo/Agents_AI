@@ -58,7 +58,7 @@ model_params = {
     'height': 10,
     'width': 10,
     'density': UserSettableParameter(param_type='slider', name='Dirty Cell Density', value=0.5, min_value=0.1, max_value=1.0, step=0.1),
-    'stepLimit': UserSettableParameter(param_type='slider', name='Maximum Number of Steps', value=500, min_value=10, max_value=200, step=10),
+    'stepLimit': UserSettableParameter(param_type='slider', name='Maximum Number of Steps', value=200, min_value=10, max_value=200, step=10),
     'timeLimit': UserSettableParameter(param_type='slider', name='Maximum Amount of Time', value=30, min_value=10, max_value=600, step=10)
 }
 
