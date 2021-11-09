@@ -23,11 +23,9 @@ class RoomModel(Model):
             {
                 # avoid delay
                 'time': lambda m: time.time() - self.timeStart,
-                # graphs
-                'dirty': lambda m: self.countTiles(m, True),
-                'clean': lambda m: self.countTiles(m, False),
                 # results
-                'clean percentage': lambda m: self.getCleanPercentage(m),
+                'dirty percentage': lambda m: self.getCleanPercentage(m, True),
+                'clean percentage': lambda m: self.getCleanPercentage(m, False),
                 'agent moves': lambda m: {agent.unique_id: agent.moves for agent in self.schedule.agents if isinstance(agent, RoombaAgent)}
             }
         )
@@ -66,10 +64,9 @@ class RoomModel(Model):
             self.finishSchedule()
 
     @staticmethod
-    def countTiles(model, countDirty):
+    def getCleanPercentage(model, countDirty):
         area = model.height * model.width
         counter = 0 if countDirty else area
-        # looks worse, more efficient than checking each loop for countDirty
         if countDirty:
             for agent in model.schedule.agents:
                 if isinstance(agent, TileAgent):
@@ -78,26 +75,18 @@ class RoomModel(Model):
             for agent in model.schedule.agents:
                 if isinstance(agent, TileAgent):
                     counter -= 1
-        
-        return counter / area * 100
 
-    @staticmethod
-    def getCleanPercentage(model):
-        counter = 0
-        for agent in model.schedule.agents:
-            if isinstance(agent, TileAgent):
-                counter += 1
-        
-        return 100 - round(counter / (model.height * model.width), 3) * 100
+        return round(counter / (model.height * model.width) * 100, 3)
 
     def finishSchedule(self):
         self.running = False
         dataFrame = self.datacollector.get_model_vars_dataframe()
         print(dataFrame)
         time = f'{round(dataFrame.iloc[-1, 0], 3)} seconds'
-        cleanPercentage = f'{dataFrame.iloc[-1, 3]}%'
+        dirtyPercentage = f'{round(dataFrame.iloc[-1, 1], 3)}%'
+        cleanPercentage = f'{round(dataFrame.iloc[-1, 2], 3)}%'
         agentMoves = '--- Agent Moves ---\n'
-        tmpMoves = dataFrame.iloc[-1, 4]
+        tmpMoves = dataFrame.iloc[-1, 3]
         for agentId in tmpMoves:
             agentMoves += f'Agent {agentId}: {tmpMoves[agentId]} moves\n'
         tmp = 1
@@ -114,6 +103,7 @@ class RoomModel(Model):
             file.write(f'=== Results ===\n')
             file.write(f'Total steps taken: {self.storedSteps + 1 - self.stepLimit}\n')
             file.write(f'Total time taken: {time}\n')
+            file.write(f'Percentage of dirty tiles: {dirtyPercentage}\n')
             file.write(f'Percentage of clean tiles: {cleanPercentage}\n')
             file.write(agentMoves)
         with open(f'data/data_{tmp}.txt') as file:

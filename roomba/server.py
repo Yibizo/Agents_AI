@@ -1,9 +1,11 @@
 from model import RoomModel, TileAgent, RoombaAgent
-from mesa.visualization.modules import CanvasGrid, ChartModule, PieChartModule
+from mesa.visualization.modules import CanvasGrid, ChartModule, PieChartModule, BarChartModule
 from mesa.visualization.ModularVisualization import ModularServer
 from mesa.visualization.UserParam import UserSettableParameter
 
 colorTiles = {'dirty': '#772105', 'clean': '#AAAAAA'}
+colorPercentage = {'dirty percentage': '#772105', 'clean percentage': '#AAAAAA'}
+colorAgents = {'agents moves': '#000000'}
 
 def agent_portrayal(agent):
     portrayal = {'Filled': 'true'}
@@ -28,24 +30,28 @@ def agent_portrayal(agent):
 grid = CanvasGrid(agent_portrayal, 10, 10, 500, 500)
 
 treeChart = ChartModule(
-    [{'Label': label, 'Color': color} for (label, color) in colorTiles.items()]
+    [{'Label': label, 'Color': color} for (label, color) in colorPercentage.items()]
 )
 
 pieChart = PieChartModule(
-    [{'Label': label, 'Color': color} for (label, color) in colorTiles.items()]
+    [{'Label': label, 'Color': color} for (label, color) in colorPercentage.items()]
+)
+
+barChart = BarChartModule(
+    [{'Label': label, 'Color': color} for (label, color) in colorPercentage.items()]
 )
 
 model_params = {
-    'total': UserSettableParameter(param_type='slider', name='Number of Roombas', value=2, min_value=1, max_value=30, step=1),
+    'total': UserSettableParameter(param_type='slider', name='Number of Roombas', value=3, min_value=1, max_value=30, step=1),
     'height': 10,
     'width': 10,
     'density': UserSettableParameter(param_type='slider', name='Dirty Cell Density', value=0.5, min_value=0.1, max_value=1.0, step=0.1),
-    'stepLimit': UserSettableParameter(param_type='slider', name='Maximum Number of Steps', value=500, min_value=10, max_value=1000, step=10),
-    'timeLimit': UserSettableParameter(param_type='slider', name='Maximum Amount of Time', value=10, min_value=1, max_value=600, step=1)
+    'stepLimit': UserSettableParameter(param_type='slider', name='Maximum Number of Steps', value=500, min_value=10, max_value=200, step=10),
+    'timeLimit': UserSettableParameter(param_type='slider', name='Maximum Amount of Time', value=30, min_value=10, max_value=600, step=10)
 }
 
 server = ModularServer(RoomModel,
-                       [grid, treeChart, pieChart],
+                       [grid, treeChart, pieChart, barChart],
                        'Roomba Simulation Model',
                        model_params)
 server.port = 8521 # The default
