@@ -1,0 +1,1 @@
+# Repository for class "Modeling of multiagent systems with computational graphs"
